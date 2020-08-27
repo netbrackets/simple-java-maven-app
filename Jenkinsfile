@@ -33,7 +33,7 @@ pipeline {
  post {
         always {
             echo 'Jenkins File Finished'
-            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+            archiveArtifacts artifacts: '**/*.jar', fingerprint: true
         }
         success {
             echo 'successful'
