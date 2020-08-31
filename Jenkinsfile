@@ -24,9 +24,13 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Deploy for production') {
+            when {
+                branch 'production'
+            }
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                sh './jenkins/scripts/deploy-for-production.sh'
+                input message: 'Finished testing development? (Click "Proceed" to continue)'
             }
         }
     }
