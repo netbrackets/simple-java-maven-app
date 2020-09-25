@@ -34,7 +34,7 @@ pipeline {
             }
         }
     }
- post {
+    post {
         always {
             echo 'Jenkins File Finished'
             archiveArtifacts artifacts: '**/*.jar', fingerprint: true
