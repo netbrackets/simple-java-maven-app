@@ -1,4 +1,12 @@
-def servier = Artifactory.server 'my-artifactory'
+def uploadSpec = """{
+  "files": [
+    {
+      "pattern": "*.jar",
+      "target": "bazinga-repo/froggy-files/"
+    }
+ ]
+}"""
+server.upload(uploadSpec)
 pipeline {
 agent {
         docker {
@@ -7,6 +15,19 @@ agent {
         }
     }
     stages {
+        stage ('Artifactory configuration') {
+          // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+          server = Artifactory.server 'my-artifactory'
+
+          rtMaven = Artifactory.newMavenBuild()
+          rtMaven.tool = MAVEN_TOOL // Tool name from Jenkins configuration
+          rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
+          rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+          rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
+
+          buildInfo = Artifactory.newBuildInfo()
+        }
+
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
