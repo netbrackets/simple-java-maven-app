@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "pattern": "resources/*.jar",
+      "target": "libs-snapshot-local",
+      "props": "p1=v1;p2=v2"
+    },
+    {
+      "pattern": "resources/*.jar",
+      "target": "libs-snapshot-local"
+    }
+  ]
+}
