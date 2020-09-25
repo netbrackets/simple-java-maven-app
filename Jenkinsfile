@@ -53,18 +53,6 @@ agent {
             steps {
                 sh './jenkins/scripts/deliver-for-development.sh'
                 input message: 'Finished testing development? (Click "Proceed" to continue)'
-            }
-        }
-        stage('Deploy for production') {
-            when {
-                branch 'production'
-            }
-            steps {
-                sh './jenkins/scripts/deploy-for-production.sh'
-                input message: 'Finished testing production? (Click "Proceed" to continue)'
-            }
-                    stage ('Upload file') {
-            steps {
                 rtUpload (
                     serverId: 'my-artifactory', // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
                     spec: """{
@@ -76,6 +64,16 @@ agent {
                                 ]
                             }"""
                 )
+            }
+        }
+        stage('Deploy for production') {
+            when {
+                branch 'production'
+            }
+            steps {
+                sh './jenkins/scripts/deploy-for-production.sh'
+                input message: 'Finished testing production? (Click "Proceed" to continue)'
+            }
             }
     }
  }
