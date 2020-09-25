@@ -15,20 +15,28 @@ agent {
         }
     }
     stages {
+        stage('Artifactory download and upload'){
+            steps {
+                script{
+                    // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+                    def server = Artifactory.server SERVER_ID
 
-        stage ('Artifactory configuration') {
-          steps {
-          // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
-          server = Artifactory.server 'my-artifactory'
+                    // Read the download and upload specs:
+                    def downloadSpec = readFile 'jenkins-examples/pipeline-examples/resources/props-download.json'
+                    def uploadSpec = readFile 'jenkins-examples/pipeline-examples/resources/props-upload.json'
 
-          rtMaven = Artifactory.newMavenBuild()
-          rtMaven.tool = MAVEN_TOOL // Tool name from Jenkins configuration
-          rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
-          rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-          rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
+                    // Download files from Artifactory:
+                    def buildInfo1 = server.download spec: downloadSpec
+                    // Upload files to Artifactory:
+                    def buildInfo2 = server.upload spec: uploadSpec
 
-          buildInfo = Artifactory.newBuildInfo()
-          }
+                    // Merge the local download and upload build-info instances:
+                    buildInfo1.append buildInfo2
+
+                    // Publish the merged build-info to Artifactory
+                    server.publishBuildInfo buildInfo1
+                }
+            }
         }
         stage('Build') {
             steps {
