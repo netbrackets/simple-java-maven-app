@@ -10,7 +10,7 @@ agent {
             steps {
                 script{
                     // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
-                    def server = Artifactory.server SERVER_ID
+                    def server = Artifactory.server 'my-artifactory'
 
                     // Read the download and upload specs:
                     def uploadSpec = readFile 'resources/props-upload.json'
