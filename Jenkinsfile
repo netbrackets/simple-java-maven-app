@@ -1,12 +1,3 @@
-def uploadSpec = """{
-  "files": [
-    {
-      "pattern": "*.jar",
-      "target": "bazinga-repo/froggy-files/"
-    }
- ]
-}"""
-server.upload(uploadSpec)
 pipeline {
 agent {
         docker {
@@ -22,7 +13,6 @@ agent {
                     def server = Artifactory.server SERVER_ID
 
                     // Read the download and upload specs:
-                    def downloadSpec = readFile 'jenkins-examples/pipeline-examples/resources/props-download.json'
                     def uploadSpec = readFile 'jenkins-examples/pipeline-examples/resources/props-upload.json'
 
                     // Download files from Artifactory:
