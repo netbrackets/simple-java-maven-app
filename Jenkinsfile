@@ -16,10 +16,7 @@ agent {
                     def uploadSpec = readFile 'resources/props-upload.json'
 
                     // Upload files to Artifactory:
-                    def buildInfo2 = server.upload spec: uploadSpec
-
-                    // Merge the local download and upload build-info instances:
-                    buildInfo1.append buildInfo2
+                    def buildInfo1 = server.upload spec: uploadSpec
 
                     // Publish the merged build-info to Artifactory
                     server.publishBuildInfo buildInfo1
