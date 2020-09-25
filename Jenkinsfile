@@ -1,3 +1,4 @@
+def servier = Artifactory.server 'my-artifactory'
 pipeline {
 agent {
         docker {
@@ -34,7 +35,6 @@ agent {
                 branch 'development'
             }
             steps {
-                def servier = Artifactory.server 'my-artifactory'
                 sh './jenkins/scripts/deliver-for-development.sh'
                 input message: 'Finished testing development? (Click "Proceed" to continue)'
             }
