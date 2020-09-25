@@ -13,10 +13,8 @@ agent {
                     def server = Artifactory.server SERVER_ID
 
                     // Read the download and upload specs:
-                    def uploadSpec = readFile 'jenkins-examples/pipeline-examples/resources/props-upload.json'
+                    def uploadSpec = readFile 'resources/props-upload.json'
 
-                    // Download files from Artifactory:
-                    def buildInfo1 = server.download spec: downloadSpec
                     // Upload files to Artifactory:
                     def buildInfo2 = server.upload spec: uploadSpec
 
