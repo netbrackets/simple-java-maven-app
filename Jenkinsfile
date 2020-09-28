@@ -51,6 +51,7 @@ agent {
                 branch 'development'
             }
             steps {
+                echo 'Processing development  branch'
                 sh './jenkins/scripts/deliver-for-development.sh'
                 rtUpload (
                     serverId: 'my-artifactory', // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
@@ -70,6 +71,7 @@ agent {
                 branch 'production'
             }
             steps {
+                echo 'Processing production branch'
                 sh './jenkins/scripts/deploy-for-production.sh'
                 input message: 'Finished testing production? (Click "Proceed" to continue)'
                 rtUpload (
