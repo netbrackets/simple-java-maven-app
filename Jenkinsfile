@@ -72,6 +72,17 @@ agent {
             steps {
                 sh './jenkins/scripts/deploy-for-production.sh'
                 input message: 'Finished testing production? (Click "Proceed" to continue)'
+                rtUpload (
+                    serverId: 'my-artifactory', // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+                    spec: """{
+                            "files": [
+                                    {
+                                        "pattern": "resources/*.jar",
+                                        "target": "libs-release-local"
+                                    }
+                                ]
+                            }"""
+                )
             }
             }
     }
