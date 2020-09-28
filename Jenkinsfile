@@ -42,7 +42,7 @@ agent {
             when {
                 branch 'master'
             }
-            steps {
+        steps {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
