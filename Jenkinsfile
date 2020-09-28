@@ -52,7 +52,6 @@ agent {
             }
             steps {
                 sh './jenkins/scripts/deliver-for-development.sh'
-                input message: 'Finished testing development? (Click "Proceed" to continue)'
                 rtUpload (
                     serverId: 'my-artifactory', // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
                     spec: """{
